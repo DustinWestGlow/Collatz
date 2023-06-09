@@ -42,56 +42,52 @@ def testing(num_tests, limit, style):
     total_time = sum(times)
     avg_time = total_time / num_tests
     print(f"Ts:{num_tests}, Lt:'{limit}', El:{total_time:.5f}, Av:{avg_time:.5f}")
+    return {
+        "elapsed": total_time,
+        "average": avg_time
+    }
 
 # {
 #     "styles": ["simple", "fast", "cached"],
+#     "runs": [
+#         { "cycles": "100", "limit": "1000" },
+#         { "cycles": "30", "limit": "10000" },
+#         { "cycles": "4", "limit": "100000" }
+#     ],
 #     "data": [
-#         {
-#         "runs": "100",
-#         "limit": "1000",
-#         "times": [
+#         [
 #             {"elapsed": "1.061", "average": "0.011"},
 #             {"elapsed": "", "average": ""},
 #             {"elapsed": "", "average": ""}
+#         ],
+#         [
+#             {"elapsed": "", "average": ""}
 #         ]
-#     }, {
-#         "runs": "",
-#         "limit": "",
-#         "times": []
-#     }
 #     ]
 # }
 
-# testing(100, 10**3)
-# testing(1000, 1000)
-# testing(100, 10**4)
-# testing(10, 10**5)
-# testing(4, 10**6)
-
-class Runner(runs, limit):
-    def __init__():
-        self.runs = runs
-        self.limit = limit
-runners = [
-    Runner(1000, 10**3),
-    Runner(100, 10**4),
-    Runner(10, 10**5),
-    Runner(5, 10**6)
+styles = ["simple", "fast", "cached"]
+runs = [
+    { "cycles": 100, "limit": 1000 },
+    { "cycles": 30, "limit": 10000 },
+    { "cycles": 4, "limit": 100000 }
 ]
 results = {}
-styles = ["simple", "fast", "cached"]
 results["styles"] = styles
+results["runs"] = runs
 results["data"] = []
-for runner in runners:
-    runs = runner["runs"]
-    limit = runner["limit"]
-    data = {
-        "runs": runs,
-        "limit": limit,
-        "times": []
-    }
+for style in styles:
     times = []
-    for style in styles:
-        times.append(testing(runs, limit, style))
-    data["times"] = times
-    results["data"].append(data)
+    for run in runs:
+        cycles = run["cycles"]
+        limit = run["limit"]
+        times.append(testing(cycles, limit, style))
+    results["data"].append(times)
+print(results)
+# for run in runs:
+#     cycles = run["cycles"]
+#     limit = run["limit"]
+#     times = []
+#     for style in styles:
+#         times.append(testing(cycles, limit, style))
+#     results["data"].append(times)
